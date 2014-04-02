@@ -73,6 +73,8 @@ void MainWindow::onPlayButtonClicked()
     {
         if(text == info.baseName())
         {
+	    mediaObject->clear();
+            
             delete file;
             file = new QFile(info.filePath());
             file->open(QFile::ReadOnly);
