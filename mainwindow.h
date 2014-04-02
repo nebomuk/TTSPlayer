@@ -1,8 +1,9 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include <QHttp>
 #include <QMainWindow>
+#include <QClipboard>
+#include "tts.h"
 
 namespace Ui {
 class MainWindow;
@@ -15,13 +16,19 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
-
-private slots:
-    void downloadFinished(bool);
     
+protected:
+    void closeEvent(QCloseEvent *event);
+private slots:
+    void clipboardChanged(QClipboard::Mode mode);
+    void checkBoxStateChanged(int state);
+    void onPlayButtonClicked();
+
 private:
+    TTS tts;
     Ui::MainWindow *ui;
-    QHttp * http;
+    QClipboard *clipboard;
+
 };
 
 #endif // MAINWINDOW_H

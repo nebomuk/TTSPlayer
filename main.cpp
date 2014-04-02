@@ -4,7 +4,8 @@
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-    a.setApplicationName("test");
+    a.setOrganizationName("Taiko");
+    a.setApplicationName("TTSPlayer");
     MainWindow w;
     w.show();
     
