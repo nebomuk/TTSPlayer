@@ -7,6 +7,7 @@
 #include <QStandardItemModel>
 #include <QTextStream>
 #include <QDir>
+#include <QDirIterator>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -17,6 +18,11 @@ MainWindow::MainWindow(QWidget *parent) :
     this->setWindowTitle(qApp->applicationName());
 
     clipboard = QApplication::clipboard();
+
+    file = NULL;
+    mediaObject = new Phonon::MediaObject(this);
+    audioOutput = new Phonon::AudioOutput(Phonon::MusicCategory, this);
+    Phonon::createPath(mediaObject, audioOutput);
 
     tts.setVoice("zh-CN"); // set text to speech voice to thai
 
@@ -57,7 +63,27 @@ void MainWindow::checkBoxStateChanged(int state)
  */
 void MainWindow::onPlayButtonClicked()
 {
-    tts.play(ui->lineEdit->text());
+    QString text = ui->lineEdit->text();
+
+    bool found = false;
+
+    // cannot embedded into resource because too big
+    QList<QFileInfo> infoList = QDir(QSettings().value("MediaDirectory").toString()).entryInfoList();
+    foreach(QFileInfo info, infoList)
+    {
+        if(text == info.baseName())
+        {
+            delete file;
+            file = new QFile(info.filePath());
+            file->open(QFile::ReadOnly);
+            mediaObject->setCurrentSource(Phonon::MediaSource(file));
+            mediaObject->play();
+            found = true;
+            break;
+        }
+    }
+    if(!found)
+        tts.play(text);
 }
 
 void MainWindow::clipboardChanged(QClipboard::Mode mode)

@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include <QClipboard>
+#include <QFile>
 #include "tts.h"
 
 namespace Ui {
@@ -25,10 +26,12 @@ private slots:
     void onPlayButtonClicked();
 
 private:
+    Phonon::MediaObject *mediaObject;
+    Phonon::AudioOutput *audioOutput;
     TTS tts;
     Ui::MainWindow *ui;
     QClipboard *clipboard;
-
+    QFile * file;
 };
 
 #endif // MAINWINDOW_H
