@@ -27,7 +27,7 @@
     <item row="0" column="2">
      <widget class="QCheckBox" name="checkBox">
       <property name="text">
-       <string>Copy from clipboard</string>
+       <string>Copy</string>
       </property>
       <property name="checked">
        <bool>true</bool>
