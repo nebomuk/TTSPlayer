@@ -90,9 +90,12 @@ void MainWindow::onPlayButtonClicked()
 
 void MainWindow::clipboardChanged(QClipboard::Mode mode)
 {
-    if(mode != QClipboard::Selection)
-        return;
-    QString text = clipboard->text(QClipboard::Selection).trimmed();
+    QString text;
+    if(mode == QClipboard::Selection)
+    text = clipboard->text(QClipboard::Selection).trimmed();
+    else
+    text = clipboard->text(QClipboard::Clipboard).trimmed();
+
     ui->lineEdit->setText(text);
 }
 
