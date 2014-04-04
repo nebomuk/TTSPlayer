@@ -90,6 +90,9 @@ void MainWindow::onPlayButtonClicked()
 
 void MainWindow::clipboardChanged(QClipboard::Mode mode)
 {
+    if(ui->lineEdit->hasFocus()) // make it possible to select and delete the contained text
+        return;
+
     QString text;
     if(mode == QClipboard::Selection)
     text = clipboard->text(QClipboard::Selection).trimmed();
